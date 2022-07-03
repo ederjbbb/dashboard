@@ -1,10 +1,18 @@
-import {Box, Button, Flex, Text, Heading, Icon, Table, Th, Thead, Tr, Checkbox, Tbody, Td} from '@chakra-ui/react'
+import {Box, Button, Flex, Text, Heading, Icon, Table, Th, Thead, Tr, Checkbox, Tbody, Td, useBreakpointValue} from '@chakra-ui/react'
+import Link from 'next/link'
 import { RiAddLine, RiPencilFill, RiDeleteBinFill} from 'react-icons/ri'
 import { Header } from '../../components/Header'
-import Pagination from '../../components/pagination'
+import Pagination from '../../components/Pagination'
 import { SideBar } from '../../components/SideBar'
 
+
 export default function UserList(){
+
+      const isWebVersion = useBreakpointValue({
+            base : false,
+            lg: true
+        })
+
     return(
         <Box>
             <Header/>
@@ -14,8 +22,8 @@ export default function UserList(){
                 <Box flex={1} borderRadius={8} bg='gray.800' p='8'>
                     <Flex mb='8' justify={'space-between'} align='center'>
                         <Heading size='large' fontWeight={'normal'}>Lista de usuarios</Heading>
-
-                            <Button 
+                        <Link href='/users/create' passHref>
+                        <Button 
                             as='a' 
                             size='small'
                             fontSize={'small'} 
@@ -24,22 +32,24 @@ export default function UserList(){
                             leftIcon={<Icon as={RiAddLine} fontSize='16'/>}>
                                 Criar Usuário
                             </Button>
+                        </Link>
+                           
                     </Flex>
                     <Table colorScheme={'whiteAlpha'}>
                         <Thead>
                             <Tr>
-                                <Th px='6' color='gray.300' w='8'>
+                                <Th px={['2', '4', '6']} color='gray.300' w='8'>
                                     <Checkbox colorScheme={'pink'}/>
                                 </Th>
                                 <Th>Usuário</Th>
-                                <Th>Data de cadastro</Th>
+                                { isWebVersion && <Th>Data de cadastro</Th>}
                                 <Th></Th>
                                 <Th></Th>
                             </Tr>
                         </Thead>
                         <Tbody>
                             <Tr>
-                                <Td px='6'>
+                                <Td px={['2', '4', '6']}>
                                 <Checkbox colorScheme={'pink'} />
                                 </Td>
                                 <Td >
@@ -48,16 +58,18 @@ export default function UserList(){
                                         <Text fontSize={'small'} color='gray.300'>ederjb@icloud.com</Text>
                                     </Box>
                                 </Td>
-                                <Td > 04 Abril 2022</Td>
+                                {isWebVersion && <Td > 04 Abril 2022</Td>}
                                 <Td > <Button 
                         as='a' 
                         size='small'
                         fontSize={'small'} 
                         colorScheme='yellow' 
-                        p='2' 
+                        p='2'
+                        pr={['0', '2']}
+                        
                         leftIcon={<Icon as={RiPencilFill} fontSize='16'/> }>
-                            Editar
-                        </Button>
+                            {isWebVersion ? 'Editar' : ''}
+                        </Button >
                         </Td>
                         <Td > <Button 
                         as='a' 
@@ -65,12 +77,14 @@ export default function UserList(){
                         fontSize={'small'} 
                         colorScheme='red' 
                         p='2' 
+                        pr={['0', '2']}
                         leftIcon={<Icon as={RiDeleteBinFill} fontSize='16'/>}>
-                            Apagar
+                            {isWebVersion ? 'Apagar' : ''}
                         </Button>
                         </Td>
                                 
                             </Tr>
+                            
                         </Tbody>
                     </Table>
                     <Pagination/>
